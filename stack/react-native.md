@@ -59,8 +59,10 @@ export default {
 Create this file at the project root:
 
 ```css
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/theme.css"
+  layer(theme);
+@import "tailwindcss/preflight.css"
+  layer(base);
 @import "tailwindcss/utilities.css";
 
 @import "nativewind/theme";
@@ -77,11 +79,16 @@ npx expo customize metro.config.js
 Update `metro.config.js` with:
 
 ```js
-const { getDefaultConfig } = require("expo/metro-config");
-const { withNativewind } = require("nativewind/metro");
+const {
+  getDefaultConfig,
+} = require("expo/metro-config");
+const {
+  withNativewind,
+} = require("nativewind/metro");
 
 /** @type {import('expo/metro-config').MetroConfig} */
-const config = getDefaultConfig(__dirname);
+const config =
+  getDefaultConfig(__dirname);
 
 module.exports = withNativewind(config);
 ```
@@ -111,3 +118,23 @@ This automatically generates `nativewind-env.d.ts`, enabling TypeScript support 
 ### Setup Complete
 
 You can now use Tailwind utility classes directly in React Native components via the `className` prop.
+
+---
+
+## `eas` setup
+
+### Install `eas-cli` globally
+
+```bash
+npm install -g eas-cli
+```
+
+### Login to eas cli
+
+```bash
+eas login
+```
+
+See [EAS Environment Variables](./eas-env.md) for environment variable management.
+
+See [React Native Build and Deploy](../runbooks/build-and-deploy-expo.md) for building and submitting to Play Store / App Store.
