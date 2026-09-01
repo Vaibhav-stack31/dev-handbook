@@ -24,6 +24,14 @@ Scaffold a new Expo project using the latest template:
 npx create-expo-app@latest <app_name>
 ```
 
+### Reset Project
+
+The default template ships with example boilerplate code. Run the reset script to move it into `app-example/` and start from a blank `app/` directory:
+
+```bash
+npm run reset-project
+```
+
 ### NativeWind v5 Setup
 
 NativeWind v5 brings Tailwind CSS to React Native.
