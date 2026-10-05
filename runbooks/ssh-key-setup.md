@@ -10,18 +10,36 @@ Generate an SSH key pair and copy the public key to a remote server so you can l
 
 ## Linux / macOS (Bash)
 
+### 1. Generate a new ed25519 key pair
+
+`-C` sets a comment on the public key, so you can tell whose key it is later. Run **only one** of the following three — they are alternatives, not sequential steps:
+
+Option A — plain name:
 ```bash
-# 1. Generate a new ed25519 key pair (press Enter to accept defaults, optionally set a passphrase)
-# -C sets a comment on the public key, so you can tell whose key it is later.
-# Pick ONE of the lines below — don't run all three.
-ssh-keygen -t ed25519 -C "name"            # plain name
-# ssh-keygen -t ed25519 -C "name@machine"  # name + machine (recommended)
-# ssh-keygen -t ed25519 -C "name@email.com"  # email
+ssh-keygen -t ed25519 -C "name"
+```
 
-# 2. Copy the public key to the server's authorized_keys
+Option B — name + machine (recommended):
+```bash
+ssh-keygen -t ed25519 -C "name@machine"
+```
+
+Option C — email:
+```bash
+ssh-keygen -t ed25519 -C "name@email.com"
+```
+
+Press Enter at the prompts to accept defaults, optionally setting a passphrase.
+
+### 2. Copy the public key to the server's `authorized_keys`
+
+```bash
 cat ~/.ssh/id_ed25519.pub | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
+```
 
-# 3. Log in — should no longer prompt for a password
+### 3. Log in — should no longer prompt for a password
+
+```bash
 ssh <USER>@<SERVER_IP>
 ```
 
@@ -29,18 +47,34 @@ ssh <USER>@<SERVER_IP>
 
 ## Windows — PowerShell
 
+### 1. Generate a new ed25519 key pair
+
+`-C` sets a comment on the public key, so you can tell whose key it is later. Run **only one** of the following three — they are alternatives, not sequential steps:
+
+Option A — plain name:
 ```powershell
-# 1. Generate a new ed25519 key pair
-# -C sets a comment on the public key, so you can tell whose key it is later.
-# Pick ONE of the lines below — don't run all three.
-ssh-keygen -t ed25519 -C "name"            # plain name
-# ssh-keygen -t ed25519 -C "name@machine"  # name + machine (recommended)
-# ssh-keygen -t ed25519 -C "name@email.com"  # email
+ssh-keygen -t ed25519 -C "name"
+```
 
-# 2. Copy the public key to the server's authorized_keys
+Option B — name + machine (recommended):
+```powershell
+ssh-keygen -t ed25519 -C "name@machine"
+```
+
+Option C — email:
+```powershell
+ssh-keygen -t ed25519 -C "name@email.com"
+```
+
+### 2. Copy the public key to the server's `authorized_keys`
+
+```powershell
 Get-Content "$env:USERPROFILE\.ssh\id_ed25519.pub" | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
+```
 
-# 3. Log in
+### 3. Log in
+
+```powershell
 ssh <USER>@<SERVER_IP>
 ```
 
@@ -48,18 +82,34 @@ ssh <USER>@<SERVER_IP>
 
 ## Windows — Command Prompt (CMD)
 
+### 1. Generate a new ed25519 key pair
+
+`-C` sets a comment on the public key, so you can tell whose key it is later. Run **only one** of the following three — they are alternatives, not sequential steps:
+
+Option A — plain name:
 ```cmd
-:: 1. Generate a new ed25519 key pair
-:: -C sets a comment on the public key, so you can tell whose key it is later.
-:: Pick ONE of the lines below — don't run all three.
 ssh-keygen -t ed25519 -C "name"
-:: ssh-keygen -t ed25519 -C "name@machine"
-:: ssh-keygen -t ed25519 -C "name@email.com"
+```
 
-:: 2. Copy the public key to the server's authorized_keys
+Option B — name + machine (recommended):
+```cmd
+ssh-keygen -t ed25519 -C "name@machine"
+```
+
+Option C — email:
+```cmd
+ssh-keygen -t ed25519 -C "name@email.com"
+```
+
+### 2. Copy the public key to the server's `authorized_keys`
+
+```cmd
 type "%USERPROFILE%\.ssh\id_ed25519.pub" | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
+```
 
-:: 3. Log in
+### 3. Log in
+
+```cmd
 ssh <USER>@<SERVER_IP>
 ```
 
