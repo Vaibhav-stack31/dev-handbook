@@ -12,10 +12,11 @@ Generate an SSH key pair and copy the public key to a remote server so you can l
 
 ```bash
 # 1. Generate a new ed25519 key pair (press Enter to accept defaults, optionally set a passphrase)
-# -C sets a comment on the public key, so you can tell whose key it is later
+# -C sets a comment on the public key, so you can tell whose key it is later.
+# Pick ONE of the lines below — don't run all three.
 ssh-keygen -t ed25519 -C "name"            # plain name
-ssh-keygen -t ed25519 -C "name@machine"    # name + machine (recommended)
-ssh-keygen -t ed25519 -C "name@email.com"  # email
+# ssh-keygen -t ed25519 -C "name@machine"  # name + machine (recommended)
+# ssh-keygen -t ed25519 -C "name@email.com"  # email
 
 # 2. Copy the public key to the server's authorized_keys
 cat ~/.ssh/id_ed25519.pub | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
@@ -30,10 +31,11 @@ ssh <USER>@<SERVER_IP>
 
 ```powershell
 # 1. Generate a new ed25519 key pair
-# -C sets a comment on the public key, so you can tell whose key it is later
+# -C sets a comment on the public key, so you can tell whose key it is later.
+# Pick ONE of the lines below — don't run all three.
 ssh-keygen -t ed25519 -C "name"            # plain name
-ssh-keygen -t ed25519 -C "name@machine"    # name + machine (recommended)
-ssh-keygen -t ed25519 -C "name@email.com"  # email
+# ssh-keygen -t ed25519 -C "name@machine"  # name + machine (recommended)
+# ssh-keygen -t ed25519 -C "name@email.com"  # email
 
 # 2. Copy the public key to the server's authorized_keys
 Get-Content "$env:USERPROFILE\.ssh\id_ed25519.pub" | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
@@ -48,10 +50,11 @@ ssh <USER>@<SERVER_IP>
 
 ```cmd
 :: 1. Generate a new ed25519 key pair
-:: -C sets a comment on the public key, so you can tell whose key it is later
+:: -C sets a comment on the public key, so you can tell whose key it is later.
+:: Pick ONE of the lines below — don't run all three.
 ssh-keygen -t ed25519 -C "name"
-ssh-keygen -t ed25519 -C "name@machine"
-ssh-keygen -t ed25519 -C "name@email.com"
+:: ssh-keygen -t ed25519 -C "name@machine"
+:: ssh-keygen -t ed25519 -C "name@email.com"
 
 :: 2. Copy the public key to the server's authorized_keys
 type "%USERPROFILE%\.ssh\id_ed25519.pub" | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
