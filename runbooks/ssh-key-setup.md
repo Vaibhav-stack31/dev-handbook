@@ -68,6 +68,26 @@ ssh <USER>@<SERVER_IP>
 - The middle command pipes the public key over SSH and appends it to `~/.ssh/authorized_keys` on the server, creating the `.ssh` directory if it doesn't exist yet.
 - `chmod 700 ~/.ssh` and `chmod 600 ~/.ssh/authorized_keys` are required — SSH refuses to use `authorized_keys` if the permissions are too open.
 
+## Interactive prompts
+
+Running `ssh-keygen` stops and asks three things. Here's what each means and whether you can just press Enter through it:
+
+| Prompt | Significance | Skippable? |
+|---|---|---|
+| `Enter file in which to save the key (.../id_ed25519):` | Where the private key (and matching `.pub`) get written. Change it to keep multiple keys side by side (e.g. `id_ed25519_work`) instead of overwriting your default. | Yes — Enter accepts the default path shown. |
+| `Enter passphrase (empty for no passphrase):` | Encrypts the private key file at rest. Without one, anyone who copies the private key file can use it immediately; with one, they also need the passphrase (or your unlocked ssh-agent session). | Yes — Enter for no passphrase. Skipping is less secure but common for automation/CI keys; for personal keys, setting one is recommended. |
+| `Enter same passphrase again:` | Typo-check for the passphrase just entered. Only appears if you set one. | Skipped automatically if the passphrase step was skipped. |
+
+### Non-interactive equivalents
+
+Pass these flags to avoid the prompts entirely (useful in scripts):
+- `-f <path>` — sets the file location
+- `-N "<passphrase>"` — sets the passphrase (`-N ""` = explicitly no passphrase)
+
+```bash
+ssh-keygen -t ed25519 -C "name@machine" -f ~/.ssh/id_ed25519_work -N ""
+```
+
 ## Gotchas
 - If `~/.ssh/id_ed25519` already exists, `ssh-keygen` will prompt before overwriting it — don't overwrite a key you're still using elsewhere.
 - The copy step still needs password auth to work once; if password auth is disabled on the server, add the public key via another route (cloud provider console, existing key, etc.).
