@@ -12,7 +12,10 @@ Generate an SSH key pair and copy the public key to a remote server so you can l
 
 ```bash
 # 1. Generate a new ed25519 key pair (press Enter to accept defaults, optionally set a passphrase)
-ssh-keygen -t ed25519
+# -C sets a comment on the public key, so you can tell whose key it is later
+ssh-keygen -t ed25519 -C "name"            # plain name
+ssh-keygen -t ed25519 -C "name@machine"    # name + machine (recommended)
+ssh-keygen -t ed25519 -C "name@email.com"  # email
 
 # 2. Copy the public key to the server's authorized_keys
 cat ~/.ssh/id_ed25519.pub | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
@@ -27,7 +30,10 @@ ssh <USER>@<SERVER_IP>
 
 ```powershell
 # 1. Generate a new ed25519 key pair
-ssh-keygen -t ed25519
+# -C sets a comment on the public key, so you can tell whose key it is later
+ssh-keygen -t ed25519 -C "name"            # plain name
+ssh-keygen -t ed25519 -C "name@machine"    # name + machine (recommended)
+ssh-keygen -t ed25519 -C "name@email.com"  # email
 
 # 2. Copy the public key to the server's authorized_keys
 Get-Content "$env:USERPROFILE\.ssh\id_ed25519.pub" | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
@@ -42,7 +48,10 @@ ssh <USER>@<SERVER_IP>
 
 ```cmd
 :: 1. Generate a new ed25519 key pair
-ssh-keygen -t ed25519
+:: -C sets a comment on the public key, so you can tell whose key it is later
+ssh-keygen -t ed25519 -C "name"
+ssh-keygen -t ed25519 -C "name@machine"
+ssh-keygen -t ed25519 -C "name@email.com"
 
 :: 2. Copy the public key to the server's authorized_keys
 type "%USERPROFILE%\.ssh\id_ed25519.pub" | ssh <USER>@<SERVER_IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
@@ -55,6 +64,7 @@ ssh <USER>@<SERVER_IP>
 
 ## What each step does
 - `ssh-keygen -t ed25519` creates a private key (`id_ed25519`, keep secret) and a public key (`id_ed25519.pub`, safe to share). ed25519 is preferred over RSA — smaller keys, faster, equally secure.
+- `-C "<comment>"` tags the public key with a label (name, `name@machine`, or email) instead of the default `user@hostname`. It's just metadata appended to the end of the key — no effect on security — but it's the only way to tell whose key is whose once a server's `authorized_keys` has several.
 - The middle command pipes the public key over SSH and appends it to `~/.ssh/authorized_keys` on the server, creating the `.ssh` directory if it doesn't exist yet.
 - `chmod 700 ~/.ssh` and `chmod 600 ~/.ssh/authorized_keys` are required — SSH refuses to use `authorized_keys` if the permissions are too open.
 
